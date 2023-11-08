@@ -6,28 +6,8 @@ let partidasTotales = 0;
 let victorias = 0;
 let derrotas = 0;
 
-function menu() {
 
-    const mensaje = parseInt(prompt("Menú:\n1. Iniciar un juego\n2. Estadísticas\n3. Salir"));
-
-    switch (mensaje) {
-        case 1:
-            jugar();
-            break;
-        case 2:
-            estadisticas();
-            break;
-        case 3:
-            alert("Has cerrado el juego");
-            break;
-        default:
-            alert("Elige una opcion valida");
-            menu();
-            break;
-    }
-}
-
-function jugar() {
+function nuevaPartida() {
     palabra = prompt("Introduce la palabra que quieres que adivinen").toLowerCase();
     palabraAdivinada = "_".repeat(palabra.length);
     letrasFalladas = [];
@@ -60,7 +40,7 @@ function jugar() {
             return;
         }
     }
-    
+
     derrotas++;
     partidasTotales++;
     mostrarEstadisticas(limiteFallos);
@@ -69,24 +49,25 @@ function jugar() {
 }
 
 function estadisticas() {
-    alert(`Total de partidas: ${partidasTotales}\nPartidas ganadas 
-    (${((victorias / partidasTotales) * 100).toFixed(2)}%): ${victorias}\nPartidas perdidas 
-    (${((derrotas / partidasTotales) * 100).toFixed(2)}%): ${derrotas}`);
+    const partidasTotalesInt = parseInt(partidasTotales);
+    const victoriasInt = parseInt(victorias);
+    const derrotasInt = parseInt(derrotas);
+
+    const porcentajeVictorias = ((victoriasInt / partidasTotalesInt) * 100);
+    const porcentajeDerrotas = ((derrotasInt / partidasTotalesInt) * 100);
+
+    alert(`Total de partidas: ${partidasTotalesInt}\nPartidas ganadas 
+    (${porcentajeVictorias.toFixed(0)}%): ${victoriasInt}\nPartidas perdidas 
+    (${porcentajeDerrotas.toFixed(0)}%): ${derrotasInt}`);
+
     showMenu();
 }
+
 
 function mostrarEstadisticas(intentos) {
     alert(palabraAdivinada + "\nLetras falladas " + intentos + "/" + limiteFallos + ": " + letrasFalladas.join(", "));
 }
 
-function showMenu() {
-    const reiniciar = confirm("¿Quieres volver al menu principal?");
-    if (reiniciar) {
-        menu();
-    } else {
-        alert("Gracias por jugar.");
-    }
-}
 
-menu();
+
 
